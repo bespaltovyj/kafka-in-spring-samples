@@ -1,0 +1,27 @@
+embedded:
+  kafka:
+    topicsToCreate:
+      - user.action.like
+
+
+kafka:
+  clusters:
+    prod:
+      bootstrap-servers: ${embedded.kafka.brokerList}
+      properties:
+        client.id: my-application
+        #security.protocol: SASL_PLAINTEXT
+        #sasl.mechanism: PLAIN
+        #sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${embedded.kafka.saslPlaintext.user}" password="${embedded.kafka.saslPlaintext.password}";
+        # Все настройки с префиксом - ssl.*
+
+user:
+  like:
+    action:
+      kafka:
+        consumer:
+          cluster: prod
+          auto-startup: true
+          concurrency: 1
+          properties:
+            group.id: kafka-samples
